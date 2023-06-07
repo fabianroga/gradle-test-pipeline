@@ -1,0 +1,38 @@
+on:
+  workflow_dispatch:
+    inputs:
+      destroy:
+        description: 'Destroy Resources'
+        required: true
+        type: boolean
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        type: environment
+
+jobs:
+  build-gradle-app:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'CheckoutCode'
+      uses: actions/checkout@v3
+
+    - name: 'Build App'
+      id: build
+      run: |
+        gradle build ${{ vars.MY_APP }}
+        echo 'result=SUCCESS' >> $GITHUB_OUTPUT
+
+    - name: 'Run Tests'
+      if: ${{ steps.build.outputs.result == 'SUCCESS' }}
+      run: gradle test
+
+    - name: 'Connect to server'
+      run: |
+        python log_script.py ${{ secrets.MY_CREDENTIALS }}
+
+
+
+    
+
+
