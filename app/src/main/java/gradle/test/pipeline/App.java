@@ -5,8 +5,7 @@ package gradle.test.pipeline;
 
 public class App {
     public String getGreeting() {
-        return null;
-        //return "Hello world.";
+        return "Hello World!";
     }
 
     public static void main(String[] args) {
