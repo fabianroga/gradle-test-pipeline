@@ -1,35 +1,30 @@
 on:
-  workflow_dispatch:
-    inputs:
-      destroy:
-        description: 'Destroy Resources'
-        required: true
-        type: boolean
-      environment:
-        description: 'Environment to deploy'
-        required: true
-        type: environment
+  push:
 
 jobs:
   build-gradle-app:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
     steps:
-    - name: 'CheckoutCode'
+    - name: 'Checkout'
       uses: actions/checkout@v3
 
     - name: 'Build App'
       id: build
       run: |
-        gradle build ${{ vars.MY_APP }}
+        gradle build
         echo 'result=SUCCESS' >> $GITHUB_OUTPUT
 
     - name: 'Run Tests'
       if: ${{ steps.build.outputs.result == 'SUCCESS' }}
       run: gradle test
 
-    - name: 'Connect to server'
+    - name: 'Deploy to GCR'
       run: |
-        python log_script.py ${{ secrets.MY_CREDENTIALS }}
+        echo "Deploy jar to gcr"
+        ls
 
 
 
