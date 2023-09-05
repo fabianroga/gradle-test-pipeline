@@ -21,10 +21,12 @@ jobs:
       if: ${{ steps.build.outputs.result == 'SUCCESS' }}
       run: gradle test
 
-    - name: 'Deploy to GCR'
+    - name: 'Create JAR-artifact'
       run: |
+        gradle jar
         echo "Deploy jar to gcr"
         ls
+        find . -name "*.jar"
 
 
 
