@@ -7,6 +7,8 @@ node {
     echo "Hello, World"
     stage('Build') {
         echo "Build Gradle App"
+        sh "chmod +x gradlew"
+        sh "./gradlew build"
     }
     sh "ls"
 }
