@@ -7,6 +7,10 @@ jobs:
     defaults:
       run:
         shell: bash
+    env:
+      USERNAME: ${{ vars.USERNAME }}
+      TOKEN: ${{ secrets.TOKEN }}
+
     steps:
     - name: 'Checkout'
       uses: actions/checkout@v3
@@ -27,6 +31,7 @@ jobs:
         echo "Deploy jar to gcr"
         ls
         find . -name "*.jar"
+        gradle publishAllPublicationsToGitHubPackagesRepository
 
 
 
